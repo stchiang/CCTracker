@@ -3,10 +3,8 @@ package com.mis573.sigma.cctracker;
 import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -125,12 +123,13 @@ public class MainActivity extends ActionBarActivity implements
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(10000);
+        mLocationRequest.setInterval(30000);
         mLocationRequest.setFastestInterval(5000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
     }
 
     private void updateUI() {
+        Toast.makeText(this, "Location Updated", Toast.LENGTH_SHORT).show();
         TextView mLatitudeTextView = (TextView)findViewById(R.id.latitude);
         TextView mLongitudeTextView = (TextView)findViewById(R.id.longitude);
         TextView mLastUpdateTimeTextView = (TextView)findViewById(R.id.date_time);
