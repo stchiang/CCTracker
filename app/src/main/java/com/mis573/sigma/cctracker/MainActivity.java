@@ -1,5 +1,6 @@
 package com.mis573.sigma.cctracker;
 
+import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -66,6 +67,11 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
+    public void onBackPressed() {
+        //do nothing
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -80,7 +86,12 @@ public class MainActivity extends ActionBarActivity implements
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            MainActivity.this.startActivity(intent);
+        }
+        else if (id == R.id.action_exit) {
+            //exit application
             return true;
         }
 
