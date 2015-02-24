@@ -1,74 +1,18 @@
 package com.mis573.sigma.cctracker;
 
 import android.content.Intent;
-import android.location.Location;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.View;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-
-import java.text.DateFormat;
-import java.util.Date;
-
-public class MainActivity extends ActionBarActivity implements
-        GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,
-        LocationListener {
-
-    private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
-    private Location mCurrentLocation;
-
-    private String mLastUpdateTime;
-    private boolean mRequestingLocationUpdates = true;
+public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        buildGoogleApiClient();
-        createLocationRequest();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (mGoogleApiClient.isConnected() && !mRequestingLocationUpdates) {
-            startLocationUpdates();
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopLocationUpdates();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        stopLocationUpdates();
-        mGoogleApiClient.disconnect();
-    }
-
-    @Override
-    public void onBackPressed() {
-        //do nothing
     }
 
     @Override
@@ -82,7 +26,7 @@ public class MainActivity extends ActionBarActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+        // as you specify a parent activity in AndroidManifes.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -99,65 +43,38 @@ public class MainActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onConnected(Bundle connectionHint) {
-        if (mRequestingLocationUpdates) {
-            startLocationUpdates();
-        }
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
-    public void onConnectionSuspended(int cause) {
-        // The connection has been interrupted.
-        // Disable any UI components that depend on Google APIs
-        // until onConnected() is called.
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        Toast.makeText(this,"FAILED", Toast.LENGTH_SHORT).show();
+    protected void onPause() {
+        super.onPause();
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        mCurrentLocation = location;
-        mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
-        updateUI();
+    protected void onStop() {
+        super.onStop();
     }
 
-    protected synchronized void buildGoogleApiClient() {
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(LocationServices.API)
-                .build();
+    @Override
+    public void onBackPressed() {
+
     }
 
-    protected void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(30000);
-        mLocationRequest.setFastestInterval(5000);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    // Method to start the service
+    public void startService(View view) {
+        startService(new Intent(this, TrackerService.class));
     }
 
-    private void updateUI() {
-        Toast.makeText(this, "Location Updated", Toast.LENGTH_SHORT).show();
-        TextView mLatitudeTextView = (TextView)findViewById(R.id.latitude);
-        TextView mLongitudeTextView = (TextView)findViewById(R.id.longitude);
-        TextView mLastUpdateTimeTextView = (TextView)findViewById(R.id.date_time);
-
-        mLatitudeTextView.setText("Latitude: " + String.valueOf(mCurrentLocation.getLatitude()));
-        mLongitudeTextView.setText("Longitude: " + String.valueOf(mCurrentLocation.getLongitude()));
-        mLastUpdateTimeTextView.setText("Time: " + mLastUpdateTime);
-    }
-
-    protected void startLocationUpdates() {
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this);
-    }
-
-    protected void stopLocationUpdates() {
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, this);
+    // Method to stop the service
+    public void stopService(View view) {
+        stopService(new Intent(this, TrackerService.class));
     }
 
 }
