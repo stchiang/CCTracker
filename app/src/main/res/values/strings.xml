@@ -2,10 +2,9 @@
 <resources>
 
     <string name="app_name">CCTracker</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="latitude">Latitude</string>
-    <string name="longitude">Longitude</string>
-    <string name="date_time">Date and Time</string>
+    <string name="latitude">Latitude:</string>
+    <string name="longitude">Longitude:</string>
+    <string name="date_time">Date and Time:</string>
     <string name="action_settings">Settings</string>
 
 </resources>
