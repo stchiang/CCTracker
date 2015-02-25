@@ -25,7 +25,6 @@ public class TrackerService extends Service implements
         GoogleApiClient.OnConnectionFailedListener,
         LocationListener {
 
-    private boolean mRunning;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
@@ -34,8 +33,6 @@ public class TrackerService extends Service implements
     @Override
     public void onCreate() {
         super.onCreate();
-
-        mRunning = false;
 
         createLocationRequest();
         buildGoogleApiClient();
@@ -96,14 +93,12 @@ public class TrackerService extends Service implements
     //Other functions
 
     protected void startLocationUpdates() {
-        mRunning = true;
         writeLog("Starting location updates...");
         LocationServices.FusedLocationApi.requestLocationUpdates(
                 mGoogleApiClient, mLocationRequest, this);
     }
 
     protected void stopLocationUpdates() {
-        mRunning = false;
         writeLog("Stopping location updates...");
         LocationServices.FusedLocationApi.removeLocationUpdates(
                 mGoogleApiClient, this);
@@ -122,10 +117,6 @@ public class TrackerService extends Service implements
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-    }
-
-    public boolean isRunning() {
-        return mRunning;
     }
 
     private void writeLog(String text) {

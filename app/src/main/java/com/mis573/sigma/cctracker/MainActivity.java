@@ -64,17 +64,19 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-
+        //do nothing
     }
 
     // Method to start the service
     public void startService(View view) {
-        startService(new Intent(this, TrackerService.class));
+        Intent intent = new Intent(this, TrackerService.class);
+        startService(intent);
     }
 
     // Method to stop the service
     public void stopService(View view) {
-        stopService(new Intent(this, TrackerService.class));
+        Intent intent = new Intent(this, TrackerService.class);
+        stopService(intent);
     }
 
 }
