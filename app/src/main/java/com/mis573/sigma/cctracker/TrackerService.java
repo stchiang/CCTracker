@@ -27,8 +27,6 @@ public class TrackerService extends Service implements
 
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-    private Location mCurrentLocation;
-    private String mLastUpdateTime;
     private boolean mRunning;
 
     @Override
@@ -43,8 +41,6 @@ public class TrackerService extends Service implements
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        Toast.makeText(this, "Tracking Started", Toast.LENGTH_SHORT).show();
-        writeLog("Connecting Google API Client...");
         mGoogleApiClient.connect();
         return Service.START_STICKY;
     }
@@ -52,7 +48,6 @@ public class TrackerService extends Service implements
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "Tracking Stopped", Toast.LENGTH_SHORT).show();
         stopLocationUpdates();
         mGoogleApiClient.disconnect();
         writeLog("Google API Client disconnected.");
@@ -83,6 +78,8 @@ public class TrackerService extends Service implements
 
     @Override
     public void onLocationChanged(Location location) {
+        Location mCurrentLocation;
+        String mLastUpdateTime;
         mCurrentLocation = location;
         mLastUpdateTime = DateFormat.getTimeInstance().format(new Date());
         String text = mLastUpdateTime + " - " + String.valueOf(mCurrentLocation.getLatitude()) +
@@ -93,8 +90,9 @@ public class TrackerService extends Service implements
     //Other functions
 
     protected void startLocationUpdates() {
-        if (mRunning == false) {
+        if (!mRunning) {
             mRunning = true;
+            Toast.makeText(this, "Tracking Started", Toast.LENGTH_SHORT).show();
             writeLog("Starting location updates...");
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiClient, mLocationRequest, this);
@@ -102,8 +100,9 @@ public class TrackerService extends Service implements
     }
 
     protected void stopLocationUpdates() {
-        if (mRunning == true) {
+        if (mRunning) {
             mRunning = false;
+            Toast.makeText(this, "Tracking Stopped", Toast.LENGTH_SHORT).show();
             writeLog("Stopping location updates...");
             LocationServices.FusedLocationApi.removeLocationUpdates(
                     mGoogleApiClient, this);
