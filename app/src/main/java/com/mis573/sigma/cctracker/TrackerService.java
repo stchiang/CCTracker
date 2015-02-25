@@ -29,11 +29,12 @@ public class TrackerService extends Service implements
     private LocationRequest mLocationRequest;
     private Location mCurrentLocation;
     private String mLastUpdateTime;
+    private boolean mRunning;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
+        mRunning = false;
         createLocationRequest();
         buildGoogleApiClient();
     }
@@ -59,8 +60,7 @@ public class TrackerService extends Service implements
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Unsupported");
+        throw new UnsupportedOperationException("Unsupported operation");
     }
 
     @Override
@@ -93,15 +93,21 @@ public class TrackerService extends Service implements
     //Other functions
 
     protected void startLocationUpdates() {
-        writeLog("Starting location updates...");
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient, mLocationRequest, this);
+        if (mRunning == false) {
+            mRunning = true;
+            writeLog("Starting location updates...");
+            LocationServices.FusedLocationApi.requestLocationUpdates(
+                    mGoogleApiClient, mLocationRequest, this);
+        }
     }
 
     protected void stopLocationUpdates() {
-        writeLog("Stopping location updates...");
-        LocationServices.FusedLocationApi.removeLocationUpdates(
-                mGoogleApiClient, this);
+        if (mRunning == true) {
+            mRunning = false;
+            writeLog("Stopping location updates...");
+            LocationServices.FusedLocationApi.removeLocationUpdates(
+                    mGoogleApiClient, this);
+        }
     }
 
     protected void createLocationRequest() {
