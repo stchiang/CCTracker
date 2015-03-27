@@ -6,10 +6,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 
-    private int userId = 0;
+    private String userId = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,8 +19,11 @@ public class MainActivity extends ActionBarActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            userId = extras.getInt("userId");
+            userId = extras.getString("userId");
         }
+
+        TextView tv = (TextView)findViewById(R.id.u_id);
+        tv.setText(userId);
 
     }
 

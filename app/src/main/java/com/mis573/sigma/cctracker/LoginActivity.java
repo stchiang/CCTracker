@@ -51,7 +51,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private UserLoginTask mAuthTask = null;
 
     private boolean isManager = false;
-    private int userId = 1234;
+    private String userId = "1234";
 
     // UI references.
     private EditText mEmailView;
