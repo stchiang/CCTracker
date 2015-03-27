@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,14 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+
 
 /**
  * A login screen that offers login via email/password.
@@ -242,23 +251,46 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
 
+            String roleId;
+            String username = mEmail;
+            String password = mPassword;
+
             try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
+                String link="http://www.stchiang.com/mis573/CCTracker/login.php";
+                String data  = URLEncoder.encode("username", "UTF-8")
+                        + "=" + URLEncoder.encode(username, "UTF-8")
+                        + "&" + URLEncoder.encode("password", "UTF-8")
+                        + "=" + URLEncoder.encode(password, "UTF-8");
+
+                URL url = new URL(link);
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.flush();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                roleId = reader.readLine();
+
+                if (roleId.equals("1")) {
+                    isManager = true;
+                    return true;
+                }
+                else if (roleId.equals("2")) {
+                    isManager = false;
+                    return true;
+                }
+                else {
+                    return false;
+                }
+
+            }
+            catch(Exception e){
+                Log.d("Exception: ", e.getMessage());
                 return false;
             }
 
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
         }
 
         @Override
@@ -278,9 +310,10 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                     intent.putExtra("userId", userId);
                     LoginActivity.this.startActivity(intent);
                 }
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+            }
+            else {
+                mEmailView.setError(getString(R.string.error_incorrect_password));
+                mEmailView.requestFocus();
             }
         }
 
