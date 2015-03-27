@@ -238,7 +238,6 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
 
             String roleId;
             String username = mEmail;
@@ -257,11 +256,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
                 OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
                 wr.write(data);
-                wr.flush();
+                wr.close();
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 userId = reader.readLine();
                 roleId = reader.readLine();
+                reader.close();
 
                 Log.d("userId", userId);
                 Log.d("roleId", roleId);
@@ -280,7 +280,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
 
             }
             catch(Exception e){
-                Log.d("Exception: ", e.getMessage());
+                Log.e("CCTracker", "Exception", e);
                 return false;
             }
 

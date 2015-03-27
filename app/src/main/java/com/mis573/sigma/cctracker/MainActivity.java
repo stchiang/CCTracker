@@ -3,10 +3,18 @@ package com.mis573.sigma.cctracker;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -22,8 +30,32 @@ public class MainActivity extends ActionBarActivity {
             userId = extras.getString("userId");
         }
 
+        String fname = "";
+
+        try {
+            String link="http://www.stchiang.com/mis573/CCTracker/get_fname.php";
+            String data  = URLEncoder.encode("p_id", "UTF-8")
+                    + "=" + URLEncoder.encode(userId, "UTF-8");
+
+            URL url = new URL(link);
+            URLConnection conn = url.openConnection();
+            conn.setDoOutput(true);
+
+            OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+            wr.write(data);
+            wr.close();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+            fname = reader.readLine();
+            reader.close();
+
+        }
+        catch(Exception e){
+            Log.e("CCTracker", "Exception", e);
+        }
+
         TextView tv = (TextView)findViewById(R.id.u_id);
-        tv.setText(userId);
+        tv.setText("Welcome " + fname + "!");
 
     }
 
