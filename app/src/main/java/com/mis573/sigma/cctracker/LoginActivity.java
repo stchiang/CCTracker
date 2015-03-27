@@ -42,6 +42,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
     private UserLoginTask mAuthTask = null;
 
     private boolean isManager = false;
+    private int userId = 1234;
 
     // UI references.
     private EditText mEmailView;
@@ -269,10 +270,12 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
                 finish();
                 if (isManager) {
                     Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
+                    intent.putExtra("userId", userId);
                     LoginActivity.this.startActivity(intent);
                 }
                 else {
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.putExtra("userId", userId);
                     LoginActivity.this.startActivity(intent);
                 }
             } else {

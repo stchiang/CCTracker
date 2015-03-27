@@ -9,10 +9,18 @@ import android.view.View;
 
 public class MainActivity extends ActionBarActivity {
 
+    private int userId = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            userId = extras.getInt("userId");
+        }
+
     }
 
     @Override
