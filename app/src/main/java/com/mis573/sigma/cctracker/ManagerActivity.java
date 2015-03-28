@@ -120,7 +120,6 @@ public class ManagerActivity extends ActionBarActivity {
             mNameTask = null;
             TextView tv = (TextView)findViewById(R.id.u_id);
             if (success) {
-                finish();
                 tv.setText("Welcome " + fname + "!");
             }
             else {

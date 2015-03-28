@@ -8,7 +8,7 @@
     <string name="stop_service">Stop Service</string>
     <string name="title_activity_manager">Manager View</string>
 
-    <string name="role_id">null</string>
+    <string name="role_id"></string>
     <string name="action_settings">Settings</string>
 
 
