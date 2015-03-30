@@ -20,20 +20,28 @@ import java.net.URLEncoder;
 public class MainActivity extends ActionBarActivity {
 
     private String userId = "0";
-    private FirstNameTask mNameTask = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager);
+        setContentView(R.layout.activity_main);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             userId = extras.getString("userId");
         }
 
-        mNameTask = new FirstNameTask(userId);
-        mNameTask.execute((Void) null);
+        String result = "null";
+        try {
+            result = new FirstNameTask(userId).execute((Void) null).get();
+        }
+        catch(Exception e){
+            Log.e("CCTracker", "Exception", e);
+        }
+
+        TextView tv = (TextView)findViewById(R.id.u_id);
+        tv.setText("Welcome " + result + "!");
+
     }
 
     @Override
@@ -80,21 +88,16 @@ public class MainActivity extends ActionBarActivity {
         stopService(intent);
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    public class FirstNameTask extends AsyncTask<Void, Void, Boolean> {
+    public class FirstNameTask extends AsyncTask<Void, Void, String> {
 
         private final String mUserId;
-        private String fname;
 
         FirstNameTask(String userId) {
             mUserId = userId;
         }
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected String doInBackground(Void... params) {
             try {
                 String link="http://www.stchiang.com/mis573/CCTracker/get_fname.php";
                 String data  = URLEncoder.encode("p_id", "UTF-8")
@@ -109,39 +112,21 @@ public class MainActivity extends ActionBarActivity {
                 wr.close();
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                fname = reader.readLine();
+                String fname = reader.readLine();
                 reader.close();
 
                 if (fname.equals("null")) {
-                    return false;
+                    return "null";
                 }
                 else {
-                    return true;
+                    return fname;
                 }
 
             }
             catch(Exception e){
                 Log.e("CCTracker", "Exception", e);
-                return false;
+                return "null";
             }
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mNameTask = null;
-            TextView tv = (TextView)findViewById(R.id.u_id);
-            if (success) {
-                tv.setText("Welcome " + fname + "!");
-            }
-            else {
-                tv.setText("error");
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mNameTask = null;
         }
     }
-
 }
