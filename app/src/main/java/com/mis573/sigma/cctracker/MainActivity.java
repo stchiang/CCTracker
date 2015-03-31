@@ -79,6 +79,7 @@ public class MainActivity extends ActionBarActivity {
     // Method to start the service
     public void startService(View view) {
         Intent intent = new Intent(this, TrackerService.class);
+        intent.putExtra("userId", userId);
         startService(intent);
     }
 
