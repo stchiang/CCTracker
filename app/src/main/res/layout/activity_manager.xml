@@ -12,4 +12,21 @@
         android:id="@+id/u_id"
         android:textSize="22dp" />
 
+    <TextView android:text="@string/select_emp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/select_emp_id"
+        android:textSize="22dp"
+        android:layout_below="@+id/u_id"/>
+
+    <Spinner
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+
+        android:layout_below="@+id/select_emp_id"
+        android:paddingStart="10dp"
+        android:nestedScrollingEnabled="false"
+        android:paddingTop="10dp" />
+
 </RelativeLayout>

@@ -7,6 +7,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -15,9 +19,11 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class ManagerActivity extends ActionBarActivity {
+public class ManagerActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
 
     private String userId = "0";
 
@@ -41,8 +47,31 @@ public class ManagerActivity extends ActionBarActivity {
 
         TextView tv = (TextView)findViewById(R.id.u_id);
         tv.setText("Welcome " + result + "!");
+
+        Spinner spinner = (Spinner)findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
+
+
+        List<String> categories = new ArrayList<String>();
+        categories.add("1");
+        categories.add("2");
+        categories.add("3");
+        categories.add("4");
+
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(dataAdapter);
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

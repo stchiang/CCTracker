@@ -9,6 +9,7 @@
     <string name="title_activity_manager">Manager View</string>
 
     <string name="role_id"></string>
+    <string name="select_emp">Select an employee:</string>
     <string name="action_settings">Settings</string>
 
 
