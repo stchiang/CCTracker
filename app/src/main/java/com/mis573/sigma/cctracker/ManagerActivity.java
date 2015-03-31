@@ -51,12 +51,18 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
-
         List<String> categories = new ArrayList<String>();
-        categories.add("1");
-        categories.add("2");
-        categories.add("3");
-        categories.add("4");
+        try {
+            ArrayList<String> employeeList = new GetEmployeeList(userId).execute((Void) null).get();
+            for (int i = 0; i < employeeList.size(); i++) {
+                String[] employee = employeeList.get(i).split(",");
+                categories.add(employee[1]);
+            }
+        }
+        catch (Exception e) {
+            Log.e("CCTracker","Exception", e);
+            categories.add("error");
+        }
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -118,7 +124,7 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
             try {
                 String link="http://www.stchiang.com/mis573/CCTracker/get_fname.php";
                 String data  = URLEncoder.encode("p_id", "UTF-8")
-                        + "=" + URLEncoder.encode(userId, "UTF-8");
+                        + "=" + URLEncoder.encode(mUserId, "UTF-8");
 
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
@@ -143,6 +149,47 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
             catch(Exception e){
                 Log.e("CCTracker", "Exception", e);
                 return "null";
+            }
+        }
+    }
+
+    public class GetEmployeeList extends AsyncTask<Void, Void, ArrayList<String>> {
+
+        private final String mUserId;
+
+        GetEmployeeList(String userId) {
+            mUserId = userId;
+        }
+
+        @Override
+        protected ArrayList<String> doInBackground(Void... params) {
+            try {
+                String link="http://www.stchiang.com/mis573/CCTracker/get_employees.php";
+                String data  = URLEncoder.encode("manager_id", "UTF-8")
+                        + "=" + URLEncoder.encode(mUserId, "UTF-8");
+
+                URL url = new URL(link);
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.close();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                ArrayList<String> list = new ArrayList<String>();
+                String line = "";
+
+                while ((line = reader.readLine()) != null) {
+                    list.add(line);
+                }
+                reader.close();
+
+                return list;
+            }
+            catch(Exception e){
+                Log.e("CCTracker", "Exception", e);
+                return new ArrayList<String>();
             }
         }
     }
