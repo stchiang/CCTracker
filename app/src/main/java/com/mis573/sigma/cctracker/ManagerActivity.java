@@ -12,6 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -41,13 +42,16 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         try {
             result = new FirstNameTask(userId).execute((Void) null).get();
         }
-        catch(Exception e){
+        catch (Exception e) {
             Log.e("CCTracker", "Exception", e);
         }
 
-        TextView tv = (TextView)findViewById(R.id.u_id);
+        TextView tv = (TextView) findViewById(R.id.u_id);
         tv.setText("Welcome " + result + "!");
+        addItemsOnSpinner();
+    }
 
+    public void addItemsOnSpinner() {
         Spinner spinner = (Spinner)findViewById(R.id.spinner);
         spinner.setOnItemSelectedListener(this);
 
@@ -70,8 +74,9 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
     }
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        Toast.makeText(parent.getContext(), "OnItemSelectedListener : " + pos,
+                Toast.LENGTH_SHORT).show();
     }
 
     @Override
