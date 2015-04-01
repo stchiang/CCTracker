@@ -91,7 +91,7 @@ public class MainActivity extends ActionBarActivity {
         protected String doInBackground(Void... params) {
             try {
                 String link="http://www.stchiang.com/mis573/CCTracker/get_fname.php";
-                String data  = URLEncoder.encode("p_id", "UTF-8")
+                String data  = URLEncoder.encode("emp_id", "UTF-8")
                         + "=" + URLEncoder.encode(mUserId, "UTF-8");
 
                 URL url = new URL(link);
