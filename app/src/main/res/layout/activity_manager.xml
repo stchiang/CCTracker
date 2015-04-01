@@ -50,6 +50,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/generate_timesheet"
+        android:layout_below="@id/date_spinner"
+        android:layout_marginTop="20dp"
         android:onClick="generateTimesheet"/>
 
 </RelativeLayout>
