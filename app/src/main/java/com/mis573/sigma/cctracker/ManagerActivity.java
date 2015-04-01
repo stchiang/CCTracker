@@ -21,6 +21,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -28,6 +29,7 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
     private String userId = "0";
     private ArrayList<String> employeeList;
+    private ArrayList<String> timesheetList;
     private String empId;
 
     private Spinner empSpinner;
@@ -61,15 +63,14 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
     }
 
     public void addItemsOnSpinner() {
-
         empSpinner.setOnItemSelectedListener(this);
+        dateSpinner.setOnItemSelectedListener(this);
 
         List<String> entries = new ArrayList<String>();
         try {
             employeeList = new GetEmployeeList(userId).execute((Void) null).get();
             for (int i = 0; i < employeeList.size(); i++) {
-                String[] employee = employeeList.get(i).split(",");
-                entries.add(employee[1]);
+                entries.add(employeeList.get(i).split(",")[1]);
             }
         }
         catch (Exception e) {
@@ -89,15 +90,27 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
             dateSpinner.setVisibility(View.VISIBLE);
 
             empId = employeeList.get(pos).split(",")[0];
-
             List<String> entries = new ArrayList<String>();
-            entries.add(empId);
+
+            try {
+                timesheetList = new GetTimesheets(empId).execute((Void) null).get();
+                for (int i = 0; i < timesheetList.size(); i++) {
+                    String epoch = timesheetList.get(i).split(",")[2];
+                    Date date = new Date(Long.parseLong(epoch));
+                    entries.add(date.toString());
+                }
+            }
+            catch (Exception e) {
+                Log.e("CCTracker","Exception", e);
+                entries.add("error");
+            }
+
             ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, entries);
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             dateSpinner.setAdapter(dataAdapter);
         }
         else if (spinner.getId() == R.id.date_spinner) {
-
+            Toast.makeText(this, "position: " + pos, Toast.LENGTH_SHORT).show();
 
         }
     }
@@ -194,6 +207,47 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
             try {
                 String link="http://www.stchiang.com/mis573/CCTracker/get_employees.php";
                 String data  = URLEncoder.encode("manager_id", "UTF-8")
+                        + "=" + URLEncoder.encode(mUserId, "UTF-8");
+
+                URL url = new URL(link);
+                URLConnection conn = url.openConnection();
+                conn.setDoOutput(true);
+
+                OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
+                wr.write(data);
+                wr.close();
+
+                BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                ArrayList<String> list = new ArrayList<String>();
+                String line = "";
+
+                while ((line = reader.readLine()) != null) {
+                    list.add(line);
+                }
+                reader.close();
+
+                return list;
+            }
+            catch(Exception e){
+                Log.e("CCTracker", "Exception", e);
+                return new ArrayList<String>();
+            }
+        }
+    }
+
+    public class GetTimesheets extends AsyncTask<Void, Void, ArrayList<String>> {
+
+        private final String mUserId;
+
+        GetTimesheets(String userId) {
+            mUserId = userId;
+        }
+
+        @Override
+        protected ArrayList<String> doInBackground(Void... params) {
+            try {
+                String link="http://www.stchiang.com/mis573/CCTracker/get_timesheets.php";
+                String data  = URLEncoder.encode("employee_id", "UTF-8")
                         + "=" + URLEncoder.encode(mUserId, "UTF-8");
 
                 URL url = new URL(link);
