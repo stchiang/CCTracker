@@ -61,11 +61,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        //do nothing
-    }
-
     // Method to start the service when button is pressed
     public void startService(View view) {
         Intent intent = new Intent(this, TrackerService.class);

@@ -154,11 +154,6 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onBackPressed() {
-        //do nothing
-    }
-
     // Method to generate timesheet when button is pressed
     public void generateTimesheet(View view) {
         ArrayList<String> timesheetIds = timesheets.get(dateSpinner.getSelectedItem().toString());
