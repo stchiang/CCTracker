@@ -127,7 +127,7 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
             dateSpinner.setAdapter(dataAdapter);
         }
         else if (spinner.getId() == R.id.date_spinner) {
-            Toast.makeText(this, "position: " + pos, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "position: " + pos, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -170,7 +170,12 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
     // Method to generate timesheet when button is pressed
     public void generateTimesheet(View view) {
-        Toast.makeText(this, "button pressed", Toast.LENGTH_SHORT).show();
+        ArrayList<String> timesheetIds = timesheets.get(dateSpinner.getSelectedItem().toString());
+        String temp = "";
+        for (int i=0; i < timesheetIds.size(); i++) {
+            temp += timesheetIds.get(i) + " ";
+        }
+        Toast.makeText(this, "Timesheet IDs: " + temp, Toast.LENGTH_LONG).show();
     }
 
     //ASyncTask classes for interfacing with MySQL database
