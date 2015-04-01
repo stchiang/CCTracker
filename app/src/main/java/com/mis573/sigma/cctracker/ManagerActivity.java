@@ -22,6 +22,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -91,13 +92,18 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
             empId = employeeList.get(pos).split(",")[0];
             List<String> entries = new ArrayList<String>();
+            HashMap<String, ArrayList<String>> timesheets = new HashMap<String, ArrayList<String>>();
 
             try {
                 timesheetList = new GetTimesheets(empId).execute((Void) null).get();
                 for (int i = 0; i < timesheetList.size(); i++) {
-                    String epoch = timesheetList.get(i).split(",")[2];
-                    Date date = new Date(Long.parseLong(epoch));
-                    entries.add(date.toString());
+                    String timeId = timesheetList.get(i).split(",")[0];
+                    String epoch = timesheetList.get(i).split(",")[1];
+                    String[] date = new Date(Long.parseLong(epoch)).toString().split(" ");
+                    String formatted_date = date[1] + " " + date[2] + " " + date[5];
+
+
+                    entries.add(timeId + " " + formatted_date);
                 }
             }
             catch (Exception e) {
@@ -151,6 +157,8 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
     public void onBackPressed() {
         //do nothing
     }
+
+    //ASyncTask classes for interfacing with MySQL database
 
     public class FirstNameTask extends AsyncTask<Void, Void, String> {
 
