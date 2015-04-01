@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/u_id"
         android:textSize="22dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="10dp" />
 
     <TextView android:text="@string/select_emp"
         android:layout_width="wrap_content"
@@ -20,7 +20,7 @@
         android:id="@+id/select_emp_id"
         android:textSize="22dp"
         android:layout_below="@+id/u_id"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="10dp" />
 
     <Spinner
         android:layout_width="fill_parent"
