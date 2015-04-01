@@ -46,4 +46,10 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/border" />
 
+    <Button android:id="@+id/btnGenerateTimesheet"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/generate_timesheet"
+        android:onClick="generateTimesheet"/>
+
 </RelativeLayout>

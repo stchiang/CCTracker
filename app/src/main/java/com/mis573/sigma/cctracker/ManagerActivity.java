@@ -168,6 +168,11 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         //do nothing
     }
 
+    // Method to generate timesheet when button is pressed
+    public void generateTimesheet(View view) {
+        Toast.makeText(this, "button pressed", Toast.LENGTH_SHORT).show();
+    }
+
     //ASyncTask classes for interfacing with MySQL database
 
     public class FirstNameTask extends AsyncTask<Void, Void, String> {
