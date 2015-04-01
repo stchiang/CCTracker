@@ -36,6 +36,8 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
     private Spinner empSpinner;
     private Spinner dateSpinner;
 
+    HashMap<String, ArrayList<String>> timesheets;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +94,9 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
             empId = employeeList.get(pos).split(",")[0];
             List<String> entries = new ArrayList<String>();
-            HashMap<String, ArrayList<String>> timesheets = new HashMap<String, ArrayList<String>>();
+
+            //initialze timesheets hashmap each time a new employee is selected from emp_spinner
+            timesheets = new HashMap<String, ArrayList<String>>();
 
             try {
                 timesheetList = new GetTimesheets(empId).execute((Void) null).get();
@@ -102,8 +106,15 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
                     String[] date = new Date(Long.parseLong(epoch)).toString().split(" ");
                     String formatted_date = date[1] + " " + date[2] + " " + date[5];
 
-
-                    entries.add(timeId + " " + formatted_date);
+                    if (timesheets.get(formatted_date) == null) {
+                        ArrayList<String> temp = new ArrayList<String>();
+                        temp.add(timeId);
+                        timesheets.put(formatted_date, temp);
+                        entries.add(formatted_date);
+                    }
+                    else {
+                        timesheets.get(formatted_date).add(timeId);
+                    }
                 }
             }
             catch (Exception e) {
@@ -117,7 +128,6 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         }
         else if (spinner.getId() == R.id.date_spinner) {
             Toast.makeText(this, "position: " + pos, Toast.LENGTH_SHORT).show();
-
         }
     }
 
