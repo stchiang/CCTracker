@@ -27,6 +27,11 @@ import java.util.List;
 public class ManagerActivity extends ActionBarActivity implements AdapterView.OnItemSelectedListener {
 
     private String userId = "0";
+    private ArrayList<String> employeeList;
+    private String empId;
+
+    private Spinner empSpinner;
+    private Spinner dateSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,35 +53,56 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
         TextView tv = (TextView) findViewById(R.id.u_id);
         tv.setText("Welcome " + result + "!");
+
+        empSpinner = (Spinner)findViewById(R.id.emp_spinner);
+        dateSpinner = (Spinner)findViewById(R.id.date_spinner);
+        dateSpinner.setVisibility(View.INVISIBLE);
         addItemsOnSpinner();
     }
 
     public void addItemsOnSpinner() {
-        Spinner spinner = (Spinner)findViewById(R.id.spinner);
-        spinner.setOnItemSelectedListener(this);
 
-        List<String> categories = new ArrayList<String>();
+        empSpinner.setOnItemSelectedListener(this);
+
+        List<String> entries = new ArrayList<String>();
         try {
-            ArrayList<String> employeeList = new GetEmployeeList(userId).execute((Void) null).get();
+            employeeList = new GetEmployeeList(userId).execute((Void) null).get();
             for (int i = 0; i < employeeList.size(); i++) {
                 String[] employee = employeeList.get(i).split(",");
-                categories.add(employee[1]);
+                entries.add(employee[1]);
             }
         }
         catch (Exception e) {
             Log.e("CCTracker","Exception", e);
-            categories.add("error");
+            entries.add("error");
         }
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, entries);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(dataAdapter);
+        empSpinner.setAdapter(dataAdapter);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        Toast.makeText(parent.getContext(), "OnItemSelectedListener : " + pos,
+        dateSpinner.setVisibility(View.VISIBLE);
+
+        empId = employeeList.get(pos).split(",")[0];
+
+
+        List<String> entries = new ArrayList<String>();
+        entries.add(empId);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, entries);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dateSpinner.setAdapter(dataAdapter);
+
+
+
+/*
+        Toast.makeText(parent.getContext(), "EmpId : " + empId,
                 Toast.LENGTH_SHORT).show();
+                */
+
+
     }
 
     @Override
@@ -140,14 +166,14 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
                 wr.close();
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String fname = reader.readLine();
+                String fName = reader.readLine();
                 reader.close();
 
-                if (fname.equals("null")) {
+                if (fName.equals("null")) {
                     return "null";
                 }
                 else {
-                    return fname;
+                    return fName;
                 }
 
             }
