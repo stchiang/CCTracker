@@ -266,7 +266,7 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         protected ArrayList<String> doInBackground(Void... params) {
             try {
                 String link="http://www.stchiang.com/mis573/CCTracker/get_timesheets.php";
-                String data  = URLEncoder.encode("employee_id", "UTF-8")
+                String data  = URLEncoder.encode("emp_id", "UTF-8")
                         + "=" + URLEncoder.encode(mUserId, "UTF-8");
 
                 URL url = new URL(link);
