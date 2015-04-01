@@ -41,34 +41,22 @@ public class MainActivity extends ActionBarActivity {
 
         TextView tv = (TextView)findViewById(R.id.u_id);
         tv.setText("Welcome " + result + "!");
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifes.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             MainActivity.this.startActivity(intent);
         }
-        /*
-        else if (id == R.id.action_exit) {
-            //exit application
-            return true;
-        }
-        */
 
         return super.onOptionsItemSelected(item);
     }
@@ -78,14 +66,14 @@ public class MainActivity extends ActionBarActivity {
         //do nothing
     }
 
-    // Method to start the service
+    // Method to start the service when button is pressed
     public void startService(View view) {
         Intent intent = new Intent(this, TrackerService.class);
         intent.putExtra("userId", userId);
         startService(intent);
     }
 
-    // Method to stop the service
+    // Method to stop the service when button is pressed
     public void stopService(View view) {
         Intent intent = new Intent(this, TrackerService.class);
         stopService(intent);
@@ -104,7 +92,7 @@ public class MainActivity extends ActionBarActivity {
             try {
                 String link="http://www.stchiang.com/mis573/CCTracker/get_fname.php";
                 String data  = URLEncoder.encode("p_id", "UTF-8")
-                        + "=" + URLEncoder.encode(userId, "UTF-8");
+                        + "=" + URLEncoder.encode(mUserId, "UTF-8");
 
                 URL url = new URL(link);
                 URLConnection conn = url.openConnection();
@@ -115,14 +103,14 @@ public class MainActivity extends ActionBarActivity {
                 wr.close();
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                String fname = reader.readLine();
+                String fName = reader.readLine();
                 reader.close();
 
-                if (fname.equals("null")) {
+                if (fName.equals("null")) {
                     return "null";
                 }
                 else {
-                    return fname;
+                    return fName;
                 }
 
             }

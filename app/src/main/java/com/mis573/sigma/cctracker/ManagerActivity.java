@@ -59,15 +59,16 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         TextView tv = (TextView) findViewById(R.id.u_id);
         tv.setText("Welcome " + result + "!");
 
-        empSpinner = (Spinner)findViewById(R.id.emp_spinner);
-        dateSpinner = (Spinner)findViewById(R.id.date_spinner);
-        dateSpinner.setVisibility(View.INVISIBLE);
         addItemsOnSpinner();
     }
 
     public void addItemsOnSpinner() {
+        empSpinner = (Spinner)findViewById(R.id.emp_spinner);
+        dateSpinner = (Spinner)findViewById(R.id.date_spinner);
         empSpinner.setOnItemSelectedListener(this);
         dateSpinner.setOnItemSelectedListener(this);
+
+        dateSpinner.setVisibility(View.INVISIBLE);
 
         List<String> entries = new ArrayList<String>();
         try {
@@ -91,12 +92,11 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         Spinner spinner = (Spinner) parent;
         if (spinner.getId() == R.id.emp_spinner) {
             dateSpinner.setVisibility(View.VISIBLE);
-
             empId = employeeList.get(pos).split(",")[0];
-            List<String> entries = new ArrayList<String>();
 
-            //initialze timesheets hashmap each time a new employee is selected from emp_spinner
+            // Initialze timesheets hashmap each time a new employee is selected from emp_spinner
             timesheets = new HashMap<String, ArrayList<String>>();
+            List<String> entries = new ArrayList<String>();
 
             try {
                 timesheetList = new GetTimesheets(empId).execute((Void) null).get();
@@ -138,29 +138,18 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             Intent intent = new Intent(ManagerActivity.this, LoginActivity.class);
             ManagerActivity.this.startActivity(intent);
         }
-        /*
-        else if (id == R.id.action_exit) {
-            //exit application
-            return true;
-        }
-        */
 
         return super.onOptionsItemSelected(item);
     }
@@ -180,7 +169,7 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         Toast.makeText(this, "Timesheet IDs: " + temp, Toast.LENGTH_LONG).show();
     }
 
-    //ASyncTask classes for interfacing with MySQL database
+    // ASyncTask classes for interfacing with MySQL database
 
     public class FirstNameTask extends AsyncTask<Void, Void, String> {
 
