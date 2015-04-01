@@ -16,10 +16,6 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.URL;
@@ -58,7 +54,6 @@ public class TrackerService extends Service implements
         super.onDestroy();
         stopLocationUpdates();
         mGoogleApiClient.disconnect();
-        writeLog("Google API Client disconnected.");
     }
 
     @Override
@@ -68,19 +63,16 @@ public class TrackerService extends Service implements
 
     @Override
     public void onConnected(Bundle connectionHint) {
-        writeLog("Google API Client connected!");
         startLocationUpdates();
     }
 
     @Override
     public void onConnectionSuspended(int cause) {
-        writeLog("Google API Client connection suspended.");
         stopLocationUpdates();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult result) {
-        writeLog("Google API Client connection failed.");
         Toast.makeText(this, "Service Failed", Toast.LENGTH_SHORT).show();
     }
 
@@ -105,17 +97,12 @@ public class TrackerService extends Service implements
         catch(Exception e){
             Log.e("CCTracker", "Exception", e);
         }
-
-        String text = mLastUpdateTime + " - " + String.valueOf(mCurrentLocation.getLatitude()) +
-                ", " + String.valueOf(mCurrentLocation.getLongitude());
-        writeLog(text);
     }
 
     protected void startLocationUpdates() {
         if (!mRunning) {
             mRunning = true;
             Toast.makeText(this, "Tracking Started", Toast.LENGTH_SHORT).show();
-            writeLog("Starting location updates...");
             LocationServices.FusedLocationApi.requestLocationUpdates(
                     mGoogleApiClient, mLocationRequest, this);
         }
@@ -125,7 +112,6 @@ public class TrackerService extends Service implements
         if (mRunning) {
             mRunning = false;
             Toast.makeText(this, "Tracking Stopped", Toast.LENGTH_SHORT).show();
-            writeLog("Stopping location updates...");
             LocationServices.FusedLocationApi.removeLocationUpdates(
                     mGoogleApiClient, this);
         }
@@ -146,26 +132,7 @@ public class TrackerService extends Service implements
                 .build();
     }
 
-    private void writeLog(String text) {
-        File logFile = new File("sdcard/tracker_log.txt");
-        if (!logFile.exists()) {
-            try {
-                logFile.createNewFile();
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            BufferedWriter buf = new BufferedWriter(new FileWriter(logFile, true));
-            buf.append(text);
-            buf.newLine();
-            buf.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+    // ASyncTask classes for interfacing with MySQL database
 
     public class TrackTime extends AsyncTask<Void, Void, Boolean> {
 
