@@ -84,25 +84,22 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-        dateSpinner.setVisibility(View.VISIBLE);
+        Spinner spinner = (Spinner) parent;
+        if (spinner.getId() == R.id.emp_spinner) {
+            dateSpinner.setVisibility(View.VISIBLE);
 
-        empId = employeeList.get(pos).split(",")[0];
+            empId = employeeList.get(pos).split(",")[0];
 
-
-        List<String> entries = new ArrayList<String>();
-        entries.add(empId);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, entries);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dateSpinner.setAdapter(dataAdapter);
-
-
-
-/*
-        Toast.makeText(parent.getContext(), "EmpId : " + empId,
-                Toast.LENGTH_SHORT).show();
-                */
+            List<String> entries = new ArrayList<String>();
+            entries.add(empId);
+            ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, entries);
+            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            dateSpinner.setAdapter(dataAdapter);
+        }
+        else if (spinner.getId() == R.id.date_spinner) {
 
 
+        }
     }
 
     @Override
