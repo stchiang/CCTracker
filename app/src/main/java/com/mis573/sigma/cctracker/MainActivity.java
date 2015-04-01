@@ -63,10 +63,12 @@ public class MainActivity extends ActionBarActivity {
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             MainActivity.this.startActivity(intent);
         }
+        /*
         else if (id == R.id.action_exit) {
             //exit application
             return true;
         }
+        */
 
         return super.onOptionsItemSelected(item);
     }
