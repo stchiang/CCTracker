@@ -15,8 +15,8 @@
         android:layout_marginTop="5dp" />
 
     <ImageView
-        android:layout_width="274dp"
-        android:layout_height="205dp"
+        android:layout_width="250dp"
+        android:layout_height="187dp"
         android:id="@+id/imageView"
         android:layout_gravity="center_horizontal"
         android:src="@drawable/logo"
@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:text="@string/start_service"
         android:onClick="startService"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="10dp" />
 
     <Button android:id="@+id/btnStopService"
         android:layout_width="fill_parent"
