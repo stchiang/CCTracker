@@ -1,5 +1,6 @@
 package com.mis573.sigma.cctracker;
 
+import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -32,6 +33,14 @@ public class TimesheetActivity extends ActionBarActivity {
     private String timesheetIds;
 
     private List<String> timesheetIds_values;
+
+    // NW and SE points for a bounding box around WPI
+    // coordinates are hard-coded for now
+    // north west coordinate (42.280530, -71.815487)
+    // south east coordinate (42.270842, -71.797475)
+
+    private Coordinate nw = new Coordinate("42.280530", "-71.815487");
+    private Coordinate se = new Coordinate("42.270842", "-71.797475");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,14 +79,13 @@ public class TimesheetActivity extends ActionBarActivity {
                 timesheetIds_values.add("error");
             }
         }
-
     }
 
     public void populateEntries() {
         LinearLayout ln = (LinearLayout) this.findViewById(R.id.entries);
 
         GradientDrawable gd = new GradientDrawable();
-        gd.setColor(0xFF61B329); // Changes this drawable to use a single color instead of a gradient
+        gd.setColor(0xFF0000);
         gd.setStroke(3, 0xFF000000);
 
         for (int i = 0; i < timesheetIds_values.size(); i++) {
@@ -94,9 +102,23 @@ public class TimesheetActivity extends ActionBarActivity {
             row.setText("  " + formatted_time);
             row.setPadding(0, 8, 0, 8);
             row.setTextSize(14);
+            if (inBoundingBox(latitude, longitude)) {
+                gd.setColor(0xFF61B329); // green
+            }
+            else {
+                gd.setColor(0xFFFF0000); // red
+            }
             row.setBackground(gd);
             ln.addView(row);
         }
+    }
+
+    public Boolean inBoundingBox (String latitude, String longitude) {
+        double lat = Double.parseDouble(latitude);
+        double lon = Double.parseDouble(longitude);
+
+        return (nw.mLatitude >= lat && lat >= se.mLatitude &&
+                nw.mLongitude <= lon && lon <= se.mLongitude);
     }
 
     @Override
@@ -124,6 +146,16 @@ public class TimesheetActivity extends ActionBarActivity {
         public int compare(String s1, String s2) {
             return Integer.valueOf(s1).compareTo(Integer.valueOf(s2));
 
+        }
+    }
+
+    public class Coordinate {
+        public double mLatitude;
+        public double mLongitude;
+
+        public Coordinate(String latitude, String longitude) {
+            mLatitude = Double.parseDouble(latitude);
+            mLongitude = Double.parseDouble(longitude);
         }
     }
 
