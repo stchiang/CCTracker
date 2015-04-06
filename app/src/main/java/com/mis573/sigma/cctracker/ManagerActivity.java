@@ -147,6 +147,7 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
+
             Intent intent = new Intent(ManagerActivity.this, LoginActivity.class);
             ManagerActivity.this.startActivity(intent);
         }
@@ -156,12 +157,18 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
     // Method to generate timesheet when button is pressed
     public void generateTimesheet(View view) {
+        String date = dateSpinner.getSelectedItem().toString();
         ArrayList<String> timesheetIds = timesheets.get(dateSpinner.getSelectedItem().toString());
         String temp = "";
         for (int i=0; i < timesheetIds.size(); i++) {
             temp += timesheetIds.get(i) + " ";
         }
-        Toast.makeText(this, "Timesheet IDs: " + temp, Toast.LENGTH_LONG).show();
+
+        Intent intent = new Intent(ManagerActivity.this, TimesheetActivity.class);
+        intent.putExtra("date", date);
+        intent.putExtra("empId", empId);
+        intent.putExtra("timesheetIds", temp);
+        ManagerActivity.this.startActivity(intent);
     }
 
     // ASyncTask classes for interfacing with MySQL database

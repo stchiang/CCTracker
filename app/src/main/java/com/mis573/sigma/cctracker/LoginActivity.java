@@ -287,8 +287,7 @@ public class LoginActivity extends Activity implements LoaderCallbacks<Cursor> {
             showProgress(false);
 
             if (success) {
-                finish();
-                if (isManager) {
+                    if (isManager) {
                     Intent intent = new Intent(LoginActivity.this, ManagerActivity.class);
                     intent.putExtra("userId", userId);
                     LoginActivity.this.startActivity(intent);
