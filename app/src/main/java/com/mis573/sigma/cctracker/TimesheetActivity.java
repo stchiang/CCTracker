@@ -1,6 +1,5 @@
 package com.mis573.sigma.cctracker;
 
-import android.graphics.Point;
 import android.graphics.drawable.GradientDrawable;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -34,8 +33,8 @@ public class TimesheetActivity extends ActionBarActivity {
 
     private List<String> timesheetIds_values;
 
-    // NW and SE points for a bounding box around WPI
-    // coordinates are hard-coded for now
+    // NW and SE points for a bounding box around working area
+    // coordinates are hard-coded for WPI
     // north west coordinate (42.280530, -71.815487)
     // south east coordinate (42.270842, -71.797475)
 
@@ -59,7 +58,6 @@ public class TimesheetActivity extends ActionBarActivity {
         tv.setText(empName);
         tv = (TextView) findViewById(R.id.date);
         tv.setText(date);
-
 
         getTimesheetArray();
         populateEntries();

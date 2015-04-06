@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -126,9 +125,8 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             dateSpinner.setAdapter(dataAdapter);
         }
-        else if (spinner.getId() == R.id.date_spinner) {
+        // else if (spinner.getId() == R.id.date_spinner)
             //Toast.makeText(this, "position: " + pos, Toast.LENGTH_SHORT).show();
-        }
     }
 
     @Override
@@ -239,7 +237,7 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 ArrayList<String> list = new ArrayList<String>();
-                String line = "";
+                String line;
 
                 while ((line = reader.readLine()) != null) {
                     list.add(line);
@@ -280,7 +278,7 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
                 ArrayList<String> list = new ArrayList<String>();
-                String line = "";
+                String line;
 
                 while ((line = reader.readLine()) != null) {
                     list.add(line);
