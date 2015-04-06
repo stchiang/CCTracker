@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">CCTracker</string>
+    <string name="title_activity_main">Employee View</string>
     <string name="title_activity_manager">Manager View</string>
     <string name="title_activity_timesheet">Timesheet</string>
 
