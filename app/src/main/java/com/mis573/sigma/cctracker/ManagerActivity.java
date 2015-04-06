@@ -155,6 +155,7 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
     // Method to generate timesheet when button is pressed
     public void generateTimesheet(View view) {
+        String empName = empSpinner.getSelectedItem().toString();
         String date = dateSpinner.getSelectedItem().toString();
         ArrayList<String> timesheetIds = timesheets.get(dateSpinner.getSelectedItem().toString());
         String temp = "";
@@ -163,7 +164,8 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         }
 
         Intent intent = new Intent(ManagerActivity.this, TimesheetActivity.class);
-        intent.putExtra("empId", empId);
+        intent.putExtra("empName", empName);
+        intent.putExtra("date", date);
         intent.putExtra("timesheetIds", temp);
         ManagerActivity.this.startActivity(intent);
     }

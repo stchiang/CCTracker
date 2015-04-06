@@ -28,7 +28,8 @@ import java.util.List;
 
 public class TimesheetActivity extends ActionBarActivity {
 
-    private String empId;
+    private String empName;
+    private String date;
     private String timesheetIds;
 
     private List<String> timesheetIds_values;
@@ -41,9 +42,16 @@ public class TimesheetActivity extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
-            empId = extras.getString("empId");
+            empName = extras.getString("empName");
+            date = extras.getString("date");
             timesheetIds = extras.getString("timesheetIds");
         }
+
+        TextView tv = (TextView) findViewById(R.id.emp_name);
+        tv.setText(empName);
+        tv = (TextView) findViewById(R.id.date);
+        tv.setText(date);
+
 
         getTimesheetArray();
         populateEntries();
@@ -86,7 +94,7 @@ public class TimesheetActivity extends ActionBarActivity {
             TextView row = new TextView(this);
             row.setText("  " + formatted_time);
             row.setPadding(0, 8, 0, 8);
-            row.setTextSize(18);
+            row.setTextSize(14);
             row.setBackground(gd);
             ln.addView(row);
         }
@@ -94,7 +102,6 @@ public class TimesheetActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }

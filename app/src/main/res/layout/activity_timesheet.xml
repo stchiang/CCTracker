@@ -9,16 +9,16 @@
     <TextView android:text="@string/role_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/u_id"
+        android:id="@+id/emp_name"
         android:textSize="22dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="5dp" />
 
     <TextView android:text="@string/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/date"
-        android:layout_below="@+id/u_id"
-        android:textSize="22dp"
+        android:layout_below="@+id/emp_name"
+        android:textSize="18dp"
         android:layout_marginTop="10dp" />
 
     <ScrollView android:id="@+id/entries_sv" android:layout_width="match_parent"
