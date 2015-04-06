@@ -17,6 +17,7 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -78,26 +79,18 @@ public class TimesheetActivity extends ActionBarActivity {
             String epoch = values[0];
             String latitude = values[1];
             String longitude = values[2];
-            //String[] date  = new Date(Long.parseLong(epoch)).toString().split(" ");
-            //String time = date[1] + " " + date[2] + " " + date[5];
 
-            String time = new Date(Long.parseLong(epoch)).toString();
+            String time[] = new Date(Long.parseLong(epoch)).toString().split(" ");
+            String formatted_time = time[3] + " " + time[4];
 
-            // create a new textview
             TextView row = new TextView(this);
-
-            // set some properties of rowTextView or something
-            row.setText("  " + time);
+            row.setText("  " + formatted_time);
             row.setPadding(0, 8, 0, 8);
             row.setTextSize(18);
             row.setBackground(gd);
-            // add the textview to the linearlayout
             ln.addView(row);
-
         }
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,7 +101,6 @@ public class TimesheetActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
