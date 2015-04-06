@@ -43,6 +43,7 @@
         android:layout_below="@+id/entries_sv"
         android:layout_marginTop="10dp"
         android:text="@string/back"
+        android:onClick="goBack"
         android:textStyle="bold"
         />
 
