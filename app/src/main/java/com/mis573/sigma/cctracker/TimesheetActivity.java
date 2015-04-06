@@ -89,26 +89,25 @@ public class TimesheetActivity extends ActionBarActivity {
         gd.setStroke(3, 0xFF000000);
 
         for (int i = 0; i < timesheetIds_values.size(); i++) {
-
             String[] values = timesheetIds_values.get(i).split(",");
             String epoch = values[0];
             String latitude = values[1];
             String longitude = values[2];
+            String id = values[3];
 
             String time[] = new Date(Long.parseLong(epoch)).toString().split(" ");
             String formatted_time = time[3] + " " + time[4];
 
             TextView row = new TextView(this);
-            row.setText("  " + formatted_time);
+            row.setText("  " + id + " " + formatted_time);
             row.setPadding(0, 8, 0, 8);
-            row.setTextSize(14);
+            row.setTextSize(16);
             if (inBoundingBox(latitude, longitude)) {
-                gd.setColor(0xFF61B329); // green
+                row.setBackgroundResource(R.color.green);
             }
             else {
-                gd.setColor(0xFFFF0000); // red
+                row.setBackgroundResource(R.color.red);
             }
-            row.setBackground(gd);
             ln.addView(row);
         }
     }
