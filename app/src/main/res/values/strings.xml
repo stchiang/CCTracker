@@ -2,19 +2,26 @@
 <resources>
 
     <string name="app_name">CCTracker</string>
+    <string name="title_activity_manager">Manager View</string>
+    <string name="title_activity_timesheet">Timesheet</string>
+
     <string name="action_logout">Logout</string>
     <string name="action_exit">Exit</string>
+    <string name="action_settings">Settings</string>
+
     <string name="start_service">Start Service</string>
     <string name="stop_service">Stop Service</string>
+
     <string name="generate_timesheet">Generate Timesheet</string>
-    <string name="title_activity_manager">Manager View</string>
 
-    <string name="role_id"></string>
+
+    <string name="role_id">Insert welcome message here</string>
+
     <string name="select_emp">Select an employee:</string>
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_timesheet">TimesheetActivity</string>
+    <string name="date">Insert date here</string>
 
-    <string name="hello_world">Hello world!</string>
+    <string name="back">Go Back</string>
+
 
 
 </resources>
