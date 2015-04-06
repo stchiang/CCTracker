@@ -148,8 +148,6 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
 
         if (id == R.id.action_logout) {
             finish();
-            Intent intent = new Intent(ManagerActivity.this, LoginActivity.class);
-            ManagerActivity.this.startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

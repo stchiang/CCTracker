@@ -45,8 +45,7 @@ public class TimesheetActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_logout) {
-            Intent intent = new Intent(TimesheetActivity.this, LoginActivity.class);
-            TimesheetActivity.this.startActivity(intent);
+            finish();
         }
 
         return super.onOptionsItemSelected(item);

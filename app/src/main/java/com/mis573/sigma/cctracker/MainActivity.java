@@ -55,8 +55,6 @@ public class MainActivity extends ActionBarActivity {
 
         if (id == R.id.action_logout) {
             finish();
-            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-            MainActivity.this.startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
