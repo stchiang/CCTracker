@@ -1,10 +1,13 @@
 package com.mis573.sigma.cctracker;
 
 import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -28,6 +31,31 @@ public class TimesheetActivity extends ActionBarActivity {
         }
 
         Toast.makeText(this, date + " " + empId + " " + timesheetIds, Toast.LENGTH_LONG).show();
+
+        populateEntries();
+    }
+
+    public void populateEntries() {
+        final int N = 10; // total number of textviews to add
+        LinearLayout ln = (LinearLayout) this.findViewById(R.id.entries);
+
+        GradientDrawable gd = new GradientDrawable();
+        gd.setColor(0xFF61B329); // Changes this drawbale to use a single color instead of a gradient
+        gd.setStroke(3, 0xFF000000);
+
+        for (int i = 0; i < N; i++) {
+            // create a new textview
+            TextView row = new TextView(this);
+
+            // set some properties of rowTextView or something
+            row.setText("  This is row #" + i);
+            row.setPadding(0, 8, 0, 8;
+            row.setTextSize(18);
+            row.setBackground(gd);
+            // add the textview to the linearlayout
+            ln.addView(row);
+
+        }
 
     }
 

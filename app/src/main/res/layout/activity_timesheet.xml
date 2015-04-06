@@ -21,11 +21,12 @@
         android:textSize="22dp"
         android:layout_marginTop="10dp" />
 
-    <ScrollView android:id="@+id/entries" android:layout_width="match_parent"
+    <ScrollView android:id="@+id/entries_sv" android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/date" >
+        android:layout_below="@+id/date"
+        android:layout_marginTop="10dp" >
 
-        <LinearLayout android:id="@+id/email_login_form"
+        <LinearLayout android:id="@+id/entries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -39,8 +40,8 @@
         android:layout_centerHorizontal="true"
         android:layout_width="190dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/entries"
-        android:layout_marginTop="16dp"
+        android:layout_below="@+id/entries_sv"
+        android:layout_marginTop="10dp"
         android:text="@string/back"
         android:textStyle="bold"
         />
