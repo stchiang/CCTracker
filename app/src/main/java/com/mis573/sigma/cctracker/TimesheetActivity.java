@@ -1,6 +1,5 @@
 package com.mis573.sigma.cctracker;
 
-import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -10,12 +9,20 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 
 public class TimesheetActivity extends ActionBarActivity {
 
     private String date;
     private String empId;
     private String timesheetIds;
+
+    private List<String> timesheetIds_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,24 +39,30 @@ public class TimesheetActivity extends ActionBarActivity {
 
         Toast.makeText(this, date + " " + empId + " " + timesheetIds, Toast.LENGTH_LONG).show();
 
+        getTimesheetArray();
         populateEntries();
     }
 
+    public void getTimesheetArray() {
+        timesheetIds_list = new ArrayList<String>(Arrays.asList(timesheetIds.split(" ")));
+        Collections.sort(timesheetIds_list, new myComparator());
+
+    }
+
     public void populateEntries() {
-        final int N = 10; // total number of textviews to add
         LinearLayout ln = (LinearLayout) this.findViewById(R.id.entries);
 
         GradientDrawable gd = new GradientDrawable();
-        gd.setColor(0xFF61B329); // Changes this drawbale to use a single color instead of a gradient
+        gd.setColor(0xFF61B329); // Changes this drawable to use a single color instead of a gradient
         gd.setStroke(3, 0xFF000000);
 
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < timesheetIds_list.size(); i++) {
             // create a new textview
             TextView row = new TextView(this);
 
             // set some properties of rowTextView or something
-            row.setText("  This is row #" + i);
-            row.setPadding(0, 8, 0, 8;
+            row.setText("  " + timesheetIds_list.get(i));
+            row.setPadding(0, 8, 0, 8);
             row.setTextSize(18);
             row.setBackground(gd);
             // add the textview to the linearlayout
@@ -78,4 +91,11 @@ public class TimesheetActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public class myComparator implements Comparator<String>{
+        public int compare(String s1, String s2) {
+            return Integer.valueOf(s1).compareTo(Integer.valueOf(s2));
+
+        }
+    }
+
 }
