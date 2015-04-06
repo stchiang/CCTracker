@@ -163,7 +163,6 @@ public class ManagerActivity extends ActionBarActivity implements AdapterView.On
         }
 
         Intent intent = new Intent(ManagerActivity.this, TimesheetActivity.class);
-        intent.putExtra("date", date);
         intent.putExtra("empId", empId);
         intent.putExtra("timesheetIds", temp);
         ManagerActivity.this.startActivity(intent);
